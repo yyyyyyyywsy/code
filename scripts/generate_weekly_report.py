@@ -1,0 +1,61 @@
+﻿"""代码整理周报生成脚本"""
+import datetime
+import os
+
+def generate_report():
+    """生成每周代码整理报告"""
+    today = datetime.date.today()
+    date_cn = f'{today.year}年{today.month}月{today.day}日'
+
+    os.makedirs('weekly', exist_ok=True)
+
+    readme = f'''# Code Repository - 每周代码整理报告
+
+## 自动生成时间: {date_cn}
+
+## 目录结构
+
+| 目录 | 说明 | 文件类型 |
+|------|------|----------|
+| python/ | Python 代码 | .py, .pyx, .ipynb |
+| javascript/ | JavaScript/TypeScript | .js, .ts, .jsx, .tsx |
+| automation/ | 自动化脚本 | .sh, .ps1, .bash, .zsh |
+| tools/ | 实用工具和配置 | .json, .yaml, .yml, .toml, .env |
+| archive/ | 归档代码 | 所有类型 |
+
+## 本周代码统计
+
+- 报告生成时间: {date_cn}
+- 下次更新: 下周同日
+
+## 代码总结格式
+
+每个代码文件都会生成对应的 `_SUMMARY.md` 文件，包含:
+
+1. **功能概述** - 一句话说明代码做什么
+2. **核心逻辑** - 主要算法、流程、数据结构
+3. **关键函数表** - 名称 | 功能 | 参数 | 返回值
+4. **依赖说明** - 使用的库及其用途
+5. **使用方式** - 如何运行、调用示例
+6. **可优化建议** - 代码质量、性能、可读性改进建议
+
+## 扫描范围
+
+- C盘和D盘所有代码相关文件
+- 排除: node_modules, __pycache__, .venv, 二进制文件, 编译产物
+'''
+
+    with open('weekly/report.md', 'w', encoding='utf-8') as f:
+        f.write(readme)
+
+    with open('README.md', 'w', encoding='utf-8') as f:
+        f.write(readme)
+        f.write('\n## 文件列表\n\n见 weekly/report.md 获取完整报告\n')
+
+    print(f'Generated weekly report: weekly/report.md')
+    print('Updated README.md')
+
+if __name__ == '__main__':
+    print('Starting weekly code organization report...')
+    generate_report()
+    print('Done!')
