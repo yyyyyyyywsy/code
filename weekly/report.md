@@ -32,7 +32,3 @@
 
 - C盘和D盘所有代码相关文件
 - 排除: node_modules, __pycache__, .venv, 二进制文件, 编译产物
-
-## 文件列表
-
-见 weekly/report.md 获取完整报告
