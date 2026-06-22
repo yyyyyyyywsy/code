@@ -1,0 +1,55 @@
+﻿name: Code Organization Weekly
+
+on:
+  schedule:
+    # 每周日 20:00 北京时间 (UTC 12:00)
+    - cron: '0 12 * * 0'
+  workflow_dispatch:  # 允许手动触发
+
+jobs:
+  organize-code:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          repository: yyyyyyyyywsy/code
+          ref: master
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Create code summary report
+        run: |
+          echo "Creating weekly code organization report"
+          mkdir -p summary
+
+      - name: Generate README with summary
+        run: |
+          cat > README.md << 'EOF'
+          # Code Repository
+
+          ## 目录结构
+          - python/ - Python 代码
+          - javascript/ - JavaScript/TypeScript 代码
+          - automation/ - Shell/PowerShell 脚本
+          - tools/ - 实用工具和配置文件
+          - archive/ - 归档代码
+
+          ## 每周自动生成代码总结
+          EOF
+          echo "README updated"
+
+      - name: Commit and push changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "chore: 代码整理周报 - $(date +%Y-%m-%d)" || echo "No changes to commit"
+          git push
